@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -61,6 +61,11 @@ class LoginView(View):
         else:
             messages.error(request, "Invalid username or password")
             return redirect(reverse_lazy("login"))
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse_lazy("login"))
 
 
 def home(request):

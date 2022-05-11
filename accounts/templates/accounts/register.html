@@ -1,0 +1,46 @@
+{% extends "accounts_base.html" %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row align-items-center vh-100">
+        <div class="col-6 mx-auto">
+            <div class="card shadow-lg border-black border-4">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="my-3">
+                            <h1 class="text-primary text-center pt-4">Register</h1>
+                        </div>
+                        <div class="my-4">
+                            <hr>
+                        </div>
+                        <div class="mb-3">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-danger">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Username" name="username" autocomplete="username">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Password" name="password1" autocomplete="password">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Password (Again)" name="password2" autocomplete="password">
+                        </div>
+                        <div class="mb-3 mt-3 d-flex justify-content-between">
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                            <a href="{% url 'login' %}">Login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--ignore=E501"
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnPaste": false,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontSize": 18,
+    "editor.fontLigatures": true,
+    "editor.formatOnSaveMode": "file",
+}

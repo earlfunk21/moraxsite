@@ -1,10 +1,10 @@
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -12,6 +12,12 @@ from django.contrib.auth import authenticate, login, logout
 
 class RegisterView(View):
     title = "Register Page"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            messages.success(request, "You are already logged in")
+            return redirect(reverse_lazy("cards"))
+        return super().dispatch(request, *args, **kwargs)
 
     @property
     def get_context_data(self) -> dict:
@@ -42,6 +48,12 @@ class RegisterView(View):
 class LoginView(View):
     title = "Login Page"
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            messages.success(request, "You are already logged in")
+            return redirect(reverse_lazy("cards"))
+        return super().dispatch(request, *args, **kwargs)
+
     @property
     def get_context_data(self) -> dict:
         context = {}
@@ -57,16 +69,15 @@ class LoginView(View):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse_lazy("home"))
+            messages.success(request, "Successfully logged in")
+            return redirect(reverse_lazy("cards"))
         else:
             messages.error(request, "Invalid username or password")
             return redirect(reverse_lazy("login"))
 
 
+@login_required(redirect_field_name="login")
 def logout_view(request):
     logout(request)
+    messages.success(request, "Successfully Logout")
     return redirect(reverse_lazy("login"))
-
-
-def home(request):
-    return HttpResponse("Hello world")

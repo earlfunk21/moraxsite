@@ -1,0 +1,49 @@
+{% extends "accounts_base.html" %}
+
+{% block body %}
+<div class="">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger {% else %}alert-success {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="container d-flex justify-content-between" style="height: 50px;">
+    {% if request.user.is_authenticated %}
+        <p class="fw normal pt-3">{{ request.user.username }}</p>
+        <a class="pt-3" href="{% url 'logout' %}">Logout</a>
+    {% endif %}
+</div>
+<div class="container">
+    <div class="row d-flex justify-content-center mt-5">
+        {% if cards %}
+            {% for i, card in cards %}
+                <div class="card shadow p-3 mb-5 bg-body rounded" id="{{ i }}">
+                    <div class="card-header">
+                        {{ card.pk }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ card.title }}</h5>
+                        <p class="text-start my-5 p-1 border bg-light rounded" style="min-height: 100px;" aria-expanded="false">{{ card.body }}</textarea>
+                    </div>
+                    <div class="d-flex justify-content-end pb-2">
+                        {% if card.user == request.user %} 
+                            <a class="btn btn-success" href="{% url 'edit' card.pk %}">Edit</a>
+                        {% endif %}
+                    </div>
+                    <div class="col card-footer d-flex justify-content-between">
+                        <small class="text-muted">{{ card.user }}</small>
+                        <small class="text-muted">{{ card.updated }}</small>
+                        <small class="text-muted">{{ card.created }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="fixed-bottom d-flex justify-content-end p-3">
+        <a class="btn btn-primary" href="{% url 'add' %}">Add Card</a>
+    </div>
+</div>
+{% endblock %}

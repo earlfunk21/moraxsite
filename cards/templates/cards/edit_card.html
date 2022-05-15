@@ -1,0 +1,22 @@
+{% extends "accounts_base.html" %}
+
+{% block body %}
+<div class="container">
+  <div class="row d-flex justify-content-center mt-5">
+    <form action="" method="post">{% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Card Title</label>
+        <input type="text" value="{{ card.title }}" class="form-control" name="title" placeholder="This is my Card's title" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Card Body</label>
+        <textarea class="form-control" name="body" rows="3" placeholder="This is my Card's body" required>{{ card.body }}</textarea>
+      </div>
+      <div class="d-flex justify-content-between">
+        <a href="{% url 'delete' card.pk %}" class="btn btn-danger">Delete</a>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
